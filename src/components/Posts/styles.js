@@ -6,8 +6,3 @@ export const Posts = styled.div`
   flex-wrap: wrap;
   gap: 15px;
 `
-
-export const Title = styled.h1`
-  color: black;
-  text-align: center;
-`
