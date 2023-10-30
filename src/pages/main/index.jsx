@@ -6,27 +6,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getFreshPosts} from "../../redux/slices/postsSlice";
 
-const INITIAL_POSTS = [
-    {
-        id: 1,
-        title: 'Post 1',
-        image: 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
-    },
-    {
-        id: 2,
-        title: 'Post 2',
-        image: 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
-    },
-    {
-        id: 3,
-        title: 'Post 3',
-        image: 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
-    }
-]
-
 export const MainPage = () => {
-    const postForView = useSelector((state) => state.posts.postForView)
-    const freshPosts = useSelector((state) => state.posts.freshPosts)
+    const { post } = useSelector((state) => state.posts.postForView)
+    const {posts, loading} = useSelector((state) => state.posts.freshPosts)
 
     const dispatch = useDispatch()
 
@@ -37,16 +19,17 @@ export const MainPage = () => {
     return(
         <>
             <Container>
-                {freshPosts &&
+                {loading && <>Loading...</>}
+                {posts &&
                     <>
                         <Typo>Свежие публикации</Typo>
-                        <Posts posts={INITIAL_POSTS}/>
+                        <Posts posts={posts}/>
                     </>
                 }
-                {postForView &&
+                {post &&
                     <>
                         <Typo>Последний просмотренный пост</Typo>
-                        <Posts posts={[postForView]} />
+                        <Posts posts={[post]} />
                     </>
                 }
             </Container>

@@ -1,12 +1,11 @@
 import {useParams} from "react-router-dom";
-import {INITIAL_POSTS} from "../index";
-import {useEffect, useMemo} from "react";
+import {useEffect} from "react";
 import {Typo} from "../../../components/Typo";
 import {Container} from "../../../components/Container";
 import * as SC from './styles'
 import {Link} from "../../../components/Link";
 import {useDispatch, useSelector} from "react-redux";
-import {getPost} from "../../../redux/slices/postsSlice";
+import {getPostById} from "../../../redux/slices/postsSlice";
 
 export const DetailPostPage = () => {
     const { id } = useParams()
@@ -14,18 +13,25 @@ export const DetailPostPage = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getPost(Number(id)))
+        dispatch(getPostById(Number(id)))
     }, [id])
 
-    if (!postForView) {
+    if (postForView.loading) {
+        return <Container>Loading...</Container>
+    }
+
+    if (!postForView.post || !postForView.post.hasOwnProperty('id')) {
         return <>Пост не найден</>
     }
 
+    const { post, loading } = postForView
+    const image = post.image || 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
+
     return(
         <Container>
-            <Typo>{postForView.title}</Typo>
-            <SC.Image src={postForView.image} alt={postForView.title} />
-            <SC.Text>{postForView.body}</SC.Text>
+            <Typo>{post.title}</Typo>
+            <SC.Image src={image} alt={post.title} />
+            <SC.Text>{post.body}</SC.Text>
             <SC.LinkWrapper>
                 <Link to={'/posts'}>Обратно к публикациям</Link>
             </SC.LinkWrapper>
