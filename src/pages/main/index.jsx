@@ -1,6 +1,10 @@
 import {Posts} from "../../components/Posts";
 import {Container} from "../../components/Container";
 import {Typo} from "../../components/Typo";
+import {current} from "@reduxjs/toolkit";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getFreshPosts} from "../../redux/slices/postsSlice";
 
 const INITIAL_POSTS = [
     {
@@ -20,10 +24,32 @@ const INITIAL_POSTS = [
     }
 ]
 
-export const MainPage = () =>
-    <>
-        <Typo>Свежие публикации</Typo>
-        <Container>
-            <Posts posts={INITIAL_POSTS}/>
-        </Container>
-    </>
+export const MainPage = () => {
+    const postForView = useSelector((state) => state.posts.postForView)
+    const freshPosts = useSelector((state) => state.posts.freshPosts)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getFreshPosts())
+    }, [])
+
+    return(
+        <>
+            <Container>
+                {freshPosts &&
+                    <>
+                        <Typo>Свежие публикации</Typo>
+                        <Posts posts={INITIAL_POSTS}/>
+                    </>
+                }
+                {postForView &&
+                    <>
+                        <Typo>Последний просмотренный пост</Typo>
+                        <Posts posts={[postForView]} />
+                    </>
+                }
+            </Container>
+        </>
+    )
+}
