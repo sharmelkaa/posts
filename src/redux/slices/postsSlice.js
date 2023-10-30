@@ -3,23 +3,7 @@ import {postsAPI} from "../../api/postsAPI";
 
 const initialState = {
     posts: {
-        list: [
-            {
-                id: 1,
-                title: 'Post 1',
-                image: 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
-            },
-            {
-                id: 2,
-                title: 'Post 2',
-                image: 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
-            },
-            {
-                id: 3,
-                title: 'Post 3',
-                image: 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
-            }
-        ],
+        list: null,
         loading: false
     },
     postForView: {
@@ -58,13 +42,24 @@ export const postsSlice = createSlice({
     initialState,
     reducers: {
         editPost: (state, action) => {
-            // edit post
+            state.posts.list = state.posts.list.map((post) => {
+                if (post.id === action.payload.id) {
+                    return action.payload
+                }
+                return post
+            })
         },
         addPost: (state, action) => {
             const newPost = {...action.payload}
 
             newPost.id = new Date().getTime()
             state.posts.list = state.posts.list ? [newPost, ...state.posts.list] : [newPost]
+        },
+        showPost: (state, action) => {
+            state.postForView = {
+                post: action.payload,
+                loading: false
+            }
         }
     },
     extraReducers: (builder) => {
@@ -107,6 +102,6 @@ export const postsSlice = createSlice({
     },
 })
 
-export const { editPost, addPost} = postsSlice.actions
+export const { editPost, addPost, showPost} = postsSlice.actions
 
 export default postsSlice.reducer
