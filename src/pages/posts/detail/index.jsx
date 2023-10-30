@@ -5,16 +5,24 @@ import {Container} from "../../../components/Container";
 import * as SC from './styles'
 import {Link} from "../../../components/Link";
 import {useDispatch, useSelector} from "react-redux";
-import {getPostById} from "../../../redux/slices/postsSlice";
+import {getPostById, showPost} from "../../../redux/slices/postsSlice";
 
 export const DetailPostPage = () => {
     const { id } = useParams()
+    const { list } = useSelector((state) => state.posts.posts)
     const postForView = useSelector((state) => state.posts.postForView)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getPostById(Number(id)))
-    }, [id])
+        const intID = Number(id)
+        const foundPost = list ? list.find((item) => item.id === intID) : undefined
+
+        if (foundPost) {
+            dispatch(showPost(foundPost))
+        } else {
+            dispatch(getPostById(intID))
+        }
+    }, [id, list, dispatch])
 
     if (postForView.loading) {
         return <Container>Loading...</Container>
@@ -34,6 +42,7 @@ export const DetailPostPage = () => {
             <SC.Text>{post.body}</SC.Text>
             <SC.LinkWrapper>
                 <Link to={'/posts'}>Обратно к публикациям</Link>
+                <Link to={`/posts/${id}/edit`}>Редактировать пост</Link>
             </SC.LinkWrapper>
         </Container>
     )

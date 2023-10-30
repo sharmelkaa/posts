@@ -6,15 +6,14 @@ import {useDispatch} from "react-redux";
 import {addPost} from "../../../../redux/slices/postsSlice";
 
 const DEFAULT_VALUES = {title: '', body: ''}
-export const PostForm = () => {
-    const [formValues, setFormValues] = useState(DEFAULT_VALUES)
-
-    const dispatch = useDispatch()
+export const PostForm = ({ title, onSubmitForm, defaultValues }) => {
+    const [formValues, setFormValues] = useState(defaultValues || DEFAULT_VALUES)
 
     const onSubmit = (e) => {
         e.preventDefault()
-        dispatch(addPost(formValues))
-        setFormValues(DEFAULT_VALUES)
+        onSubmitForm(formValues)
+
+        !defaultValues && setFormValues(DEFAULT_VALUES)
     }
 
     const onChange = (name, value) => {
@@ -25,7 +24,7 @@ export const PostForm = () => {
 
     return(
         <Container>
-            <Typo>Добавление нового поста</Typo>
+            <Typo>{title}</Typo>
             <SC.Form onSubmit={onSubmit}>
                 <SC.Field>
                     <SC.Input
@@ -33,6 +32,7 @@ export const PostForm = () => {
                         name='title'
                         placeholder='Заголовок поста'
                         onChange={(e) => onChange(e.target.name, e.target.value)}
+                        value ={formValues.title}
                     />
                 </SC.Field>
                 <SC.Field>
@@ -41,6 +41,7 @@ export const PostForm = () => {
                         placeholder='Текст поста'
                         rows={10} cols={30}
                         onChange={(e) => onChange(e.target.name, e.target.value)}
+                        value={formValues.body}
                     />
                 </SC.Field>
                 <SC.Button type='submit' disabled={disabled}>Сохранить</SC.Button>
