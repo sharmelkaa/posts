@@ -63,7 +63,7 @@ export const RegistrationPage = () => {
                     <Input
                         type='text'
                         name='surname'
-                        placeholder='Вааша фамилия'
+                        placeholder='Ваша фамилия'
                         onChange={(e) => onChange(e.target.name, e.target.value)}
                         value ={formValues.surname}
                     />
