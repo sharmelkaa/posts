@@ -1,5 +1,5 @@
 import * as SC from './style'
-import {Link} from "../../../Link";
+import {Link} from "../../../ui/Link";
 
 export const Post = ({ post }) => {
     const image = post.image || 'https://greetcard.ru/uploads/posts/2022-07/1657870668_kartinka-privet-7.jpg'
