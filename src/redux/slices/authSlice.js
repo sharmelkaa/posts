@@ -13,9 +13,6 @@ export const authSlice = createSlice({
         },
         logout: (state, action) => {
             // logout user
-        },
-        registerUser: (state, action) => {
-            // registration
         }
     },
 })

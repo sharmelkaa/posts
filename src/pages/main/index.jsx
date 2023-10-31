@@ -1,6 +1,6 @@
 import {Posts} from "../../components/Posts";
-import {Container} from "../../components/Container";
-import {Typo} from "../../components/Typo";
+import {Container} from "../../components/ui/Container";
+import {Typo} from "../../components/ui/Typo";
 import {current} from "@reduxjs/toolkit";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
@@ -14,7 +14,7 @@ export const MainPage = () => {
 
     useEffect(() => {
         dispatch(getFreshPosts())
-    }, [])
+    }, [dispatch])
 
     return(
         <>
