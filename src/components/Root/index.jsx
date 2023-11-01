@@ -4,6 +4,18 @@ import {Container} from "../ui/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../redux/slices/authSlice";
 
+// TODO
+// custom hooks (for forms)
+// баттон в ЮАЙ
+// СДЕЛАТЬ КРТУИЛКУ ЛОАДЕР
+// СДЕЛАТЬ ЛИМИТ ПОСТОВ НА 10 ВМЕСТО 3 И ПОСТРАНИЧНУЮ ПАГИНАЦИЮ ЕБАНУТЬ
+// ФИЛЬТРАЦИЯ ПО НАЗВАНИЮ ПОСТОВ
+// СОРТИРОВКА ПОСТОВ КАКАЯ-НИБУДЬ
+
+// DONE
+// УРАТЬ ПЕРЕЗАПРОС ПОСТОВ НА ГЛАВНОЙ СТРАНИЦЕ
+// вынести модалку в UI и использовать вместо алертов
+
 export const Root = () => {
     const { user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()

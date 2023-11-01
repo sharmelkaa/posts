@@ -5,12 +5,22 @@ import {Input} from "../../components/ui/Input";
 import {Form} from "../../components/ui/Form";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Modal} from "../../components/ui/Modal";
+import * as SC from "./styles";
 
 const DEFAULT_VALUES = {name: '', surname:'', email:'', password:''}
+const SUCCESS_REG = 'Вы успешно зарегистрировались!'
+const WARNING_REG = 'Пользователь с таким email уже существует!'
+const modal_info = {
+    message: '',
+    type: ''
+}
 export const RegistrationPage = () => {
     const [formValues, setFormValues] = useState(DEFAULT_VALUES)
     const userID = new Date().getTime()
     const newUser = {id: userID, ...formValues}
+
+    const [showModal, setShowModal] = useState(false)
 
     const navigate = useNavigate()
 
@@ -22,18 +32,26 @@ export const RegistrationPage = () => {
 
             if (!users) {
                 localStorage.setItem('users', JSON.stringify([newUser]))
-                navigate('/auth')
-                alert('Вы успешно зарегистрировались!')
+                modal_info.message = SUCCESS_REG
+                modal_info.type = 'success'
+                setShowModal(true)
+                setTimeout(() => navigate('/auth'), 3000)
                 return
             }
 
             if (users.find((user) => user.email === formValues.email)) {
-                alert('Пользователь с таким email уже существует!')
+                modal_info.message = WARNING_REG
+                modal_info.type = 'warning'
+                setShowModal(true)
                 return
             }
 
             users.push(newUser)
             localStorage.setItem('users', JSON.stringify(users))
+            modal_info.message = SUCCESS_REG
+            modal_info.type = 'success'
+            setShowModal(true)
+            setTimeout(() => navigate('/auth'), 3000)
 
         } catch (e) {
             console.log(e)
@@ -48,6 +66,17 @@ export const RegistrationPage = () => {
 
     return(
         <Container>
+            {showModal &&
+                <Modal
+                    text={modal_info.message}
+                    type={modal_info.type}
+                    direction='row'
+                >
+                    <div></div>
+                    <SC.CloseModal onClick={() => setShowModal(false)}>x</SC.CloseModal>
+                </Modal>
+
+            }
             <Typo>Страница регистрации</Typo>
             <Form onSubmit={onSubmit}>
                 <Field>

@@ -13,8 +13,10 @@ export const MainPage = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getFreshPosts())
-    }, [dispatch])
+        if (!posts) {
+            dispatch(getFreshPosts())
+        }
+    }, [dispatch, posts])
 
     return(
         <>
