@@ -4,6 +4,7 @@ import {Typo} from "../../components/ui/Typo";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getPosts} from "../../redux/slices/postsSlice";
+import {Loader} from "../../components/ui/Loader";
 
 export const PostsPage = () => {
     const { list, loading } = useSelector((state) => state.posts.posts)
@@ -17,7 +18,7 @@ export const PostsPage = () => {
     }, [list, dispatch])
 
     if (!list && loading) {
-        return <Container>Loading...</Container>
+        return <Loader />
     }
 
     if (!list) {

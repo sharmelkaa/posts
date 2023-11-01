@@ -6,7 +6,7 @@ import {Form} from "../../components/ui/Form";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Modal} from "../../components/ui/Modal";
-import * as SC from "./styles";
+import {Button} from "../../components/ui/Button";
 
 const DEFAULT_VALUES = {name: '', surname:'', email:'', password:''}
 const SUCCESS_REG = 'Вы успешно зарегистрировались!'
@@ -24,6 +24,8 @@ export const RegistrationPage = () => {
 
     const navigate = useNavigate()
 
+    const onClose = () => console.log('hello')
+
     const onSubmit = (e) => {
         e.preventDefault()
 
@@ -35,7 +37,7 @@ export const RegistrationPage = () => {
                 modal_info.message = SUCCESS_REG
                 modal_info.type = 'success'
                 setShowModal(true)
-                setTimeout(() => navigate('/auth'), 3000)
+                setTimeout(() => navigate('/auth'), 2500)
                 return
             }
 
@@ -51,7 +53,7 @@ export const RegistrationPage = () => {
             modal_info.message = SUCCESS_REG
             modal_info.type = 'success'
             setShowModal(true)
-            setTimeout(() => navigate('/auth'), 3000)
+            setTimeout(() => navigate('/auth'), 2500)
 
         } catch (e) {
             console.log(e)
@@ -71,11 +73,9 @@ export const RegistrationPage = () => {
                     text={modal_info.message}
                     type={modal_info.type}
                     direction='row'
+                    onClose={() => setShowModal(false)}
                 >
-                    <div></div>
-                    <SC.CloseModal onClick={() => setShowModal(false)}>x</SC.CloseModal>
                 </Modal>
-
             }
             <Typo>Страница регистрации</Typo>
             <Form onSubmit={onSubmit}>
@@ -115,7 +115,7 @@ export const RegistrationPage = () => {
                         value ={formValues.password}
                     />
                 </Field>
-                <button type='submit' disabled={disabled}>Регистрация</button>
+                <Button type='submit' disabled={disabled}>Регистрация</Button>
             </Form>
         </Container>
     )
