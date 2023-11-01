@@ -7,6 +7,8 @@ import {Link} from "../../../components/ui/Link";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePost, getPostById, showPost} from "../../../redux/slices/postsSlice";
 import {Modal} from "../../../components/ui/Modal";
+import {Button} from "../../../components/ui/Button";
+import {Loader} from "../../../components/ui/Loader";
 
 export const DetailPostPage = () => {
     const { id } = useParams()
@@ -32,7 +34,7 @@ export const DetailPostPage = () => {
     }, [id, list, dispatch])
 
     if (postForView.loading) {
-        return <Container>Loading...</Container>
+        return <Loader />
     }
 
     if (!postForView.post || !postForView.post.hasOwnProperty('id')) {
@@ -56,10 +58,11 @@ export const DetailPostPage = () => {
                     text={`Вы точно уверены, что хотите удалить публикацию с ID - ${postForDelete.id}`}
                     type='normal'
                     direction='column'
+                    onClose={() => setPostForDelete(null)}
                 >
                     <SC.ModalContent>
-                        <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
-                        <button onClick={() => setPostForDelete(null)}>Нет</button>
+                        <Button onClick={onDeletePost} dangerous={true}>Да</Button>
+                        <Button onClick={() => setPostForDelete(null)}>Нет</Button>
                     </SC.ModalContent>
                 </Modal>
             }
@@ -69,7 +72,7 @@ export const DetailPostPage = () => {
             <SC.LinkWrapper>
                 <Link to={'/posts'}>Обратно к публикациям</Link>
                 {showEditAndDelete && <Link to={`/posts/${id}/edit`}>Редактировать пост</Link>}
-                {showEditAndDelete && <SC.DeleteButton onClick={() => setPostForDelete(post)}>Удалить</SC.DeleteButton>}
+                {showEditAndDelete && <Button onClick={() => setPostForDelete(post)} dangerous={true}>Удалить</Button>}
             </SC.LinkWrapper>
         </Container>
     )

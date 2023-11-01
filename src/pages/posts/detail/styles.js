@@ -9,7 +9,6 @@ export const Image = styled.img`
 export const Text = styled.div`
   font-size: 15px;
 `
-
 export const LinkWrapper = styled.div`
   margin: 15px 0 0 0;
   clear: both;
@@ -18,21 +17,6 @@ export const LinkWrapper = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-`
-
-export const DeleteButton = styled.button`
-  border: 1px solid black;
-  background: white;
-  padding: 5px 15px;
-  border-radius: 10px;
-  color: black;
-  cursor: pointer;
-  
-  &:hover {
-    background: red;
-    color: white;
-    border: 1px solid red;
-  }
 `
 export const ModalContent = styled.div`
   display: flex;

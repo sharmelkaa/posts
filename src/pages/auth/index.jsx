@@ -8,7 +8,7 @@ import {Form} from "../../components/ui/Form";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/slices/authSlice";
 import {Modal} from "../../components/ui/Modal";
-import * as SC from './styles'
+import {Button} from "../../components/ui/Button";
 
 
 const DEFAULT_VALUES = {name: '', surname:'', email:'', password:''}
@@ -56,9 +56,8 @@ export const AuthPage = () => {
                     text={'Данный пользователь не найден в системе!'}
                     type='warning'
                     direction='row'
+                    onClose={() => setShowModal(false)}
                 >
-                    <div></div>
-                    <SC.CloseModal onClick={() => setShowModal(false)}>x</SC.CloseModal>
                 </Modal>
             }
             <Typo>Это страница авторизации!</Typo>
@@ -81,7 +80,7 @@ export const AuthPage = () => {
                         value ={formValues.password}
                     />
                 </Field>
-                <button type='submit' disabled={disabled}>Авторизация</button>
+                <Button type='submit' disabled={disabled}>Авторизация</Button>
             </Form>
         </Container>
     )
