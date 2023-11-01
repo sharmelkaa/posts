@@ -6,6 +6,7 @@ import * as SC from './styles'
 import {Link} from "../../../components/ui/Link";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePost, getPostById, showPost} from "../../../redux/slices/postsSlice";
+import {Modal} from "../../../components/ui/Modal";
 
 export const DetailPostPage = () => {
     const { id } = useParams()
@@ -51,15 +52,16 @@ export const DetailPostPage = () => {
     return(
         <Container>
             {postForDelete &&
-                <SC.ModalWrapper>
-                    <SC.Modal>
-                        <SC.ModalText>{`Вы точно уверены, что хотите удалить публикацию с ID - ${postForDelete.id}`}</SC.ModalText>
-                        <SC.ModalContent>
-                            <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
-                            <button onClick={() => setPostForDelete(null)}>Нет</button>
-                        </SC.ModalContent>
-                    </SC.Modal>
-                </SC.ModalWrapper>
+                <Modal
+                    text={`Вы точно уверены, что хотите удалить публикацию с ID - ${postForDelete.id}`}
+                    type='normal'
+                    direction='column'
+                >
+                    <SC.ModalContent>
+                        <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
+                        <button onClick={() => setPostForDelete(null)}>Нет</button>
+                    </SC.ModalContent>
+                </Modal>
             }
             <Typo>{post.title}</Typo>
             <SC.Image src={image} alt={post.title} />

@@ -7,6 +7,8 @@ import {Input} from "../../components/ui/Input";
 import {Form} from "../../components/ui/Form";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/slices/authSlice";
+import {Modal} from "../../components/ui/Modal";
+import * as SC from './styles'
 
 
 const DEFAULT_VALUES = {name: '', surname:'', email:'', password:''}
@@ -14,6 +16,7 @@ export const AuthPage = () => {
     const [formValues, setFormValues] = useState(DEFAULT_VALUES)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [showModal, setShowModal] = useState(false)
 
     const onChange = (name, value) => {
         setFormValues({...formValues, [name]: value})
@@ -26,14 +29,14 @@ export const AuthPage = () => {
             const users = JSON.parse(localStorage.getItem('users'))
 
             if (!users) {
-                alert('Данный пользователь не найден в системе')
+                setShowModal(true)
                 return
             }
 
             const currentUser = users.find((user) => user.email === formValues.email && user.password === formValues.password)
 
             if (!currentUser) {
-                alert('Данный пользователь не найден в системе')
+                setShowModal(true)
                 return
             }
 
@@ -48,6 +51,16 @@ export const AuthPage = () => {
     const disabled = !formValues.email || !formValues.password
     return(
         <Container>
+            {showModal &&
+                <Modal
+                    text={'Данный пользователь не найден в системе!'}
+                    type='warning'
+                    direction='row'
+                >
+                    <div></div>
+                    <SC.CloseModal onClick={() => setShowModal(false)}>x</SC.CloseModal>
+                </Modal>
+            }
             <Typo>Это страница авторизации!</Typo>
             <Form onSubmit={onSubmit}>
                 <Field>
