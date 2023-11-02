@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {postsAPI} from "../../api/postsAPI";
+import {modifyPosts} from "../../helpers/modifyPosts";
 
 const initialState = {
     posts: {
@@ -13,7 +14,13 @@ const initialState = {
     freshPosts: {
         posts: null,
         loading: false
-    }
+    },
+    currentPagePosts: {
+        list: null,
+        loading: false
+    },
+    totalPages: 1,
+    currentPage: 1
 }
 
 export const getPostById = createAsyncThunk(
@@ -68,6 +75,14 @@ export const postsSlice = createSlice({
                 post: null,
                 loading: false
             }
+        },
+        changePage: (state, action) => {
+            state.currentPage = action.payload
+        },
+        setCurrentPagePosts: (state, action) => {
+            const { searchQuery, sorterName, listToModify, pageNumber } = {...action.payload}
+            state.totalPages = modifyPosts(searchQuery, sorterName, listToModify, pageNumber)[0]
+            state.currentPagePosts.list = modifyPosts(searchQuery, sorterName, listToModify, pageNumber)[1]
         }
     },
     extraReducers: (builder) => {
@@ -110,6 +125,13 @@ export const postsSlice = createSlice({
     },
 })
 
-export const { editPost, addPost, showPost, deletePost} = postsSlice.actions
+export const {
+    editPost,
+    addPost,
+    showPost,
+    deletePost,
+    changePage,
+    setCurrentPagePosts
+} = postsSlice.actions
 
 export default postsSlice.reducer
