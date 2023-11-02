@@ -2,19 +2,69 @@ import {Posts} from "../../components/Posts";
 import {Container} from "../../components/ui/Container";
 import {Typo} from "../../components/ui/Typo";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {getPosts} from "../../redux/slices/postsSlice";
+import {useEffect, useState} from "react";
+import {changePage, getPosts, setCurrentPagePosts} from "../../redux/slices/postsSlice";
 import {Loader} from "../../components/ui/Loader";
+import {Search} from "../../components/Search";
+import {Sorter} from "../../components/Sorter";
+import * as SC from './styles'
+import {Pagination} from "../../components/Pagination";
 
 export const PostsPage = () => {
     const { list, loading } = useSelector((state) => state.posts.posts)
+    const currentPagePosts = useSelector((state) => state.posts.currentPagePosts.list)
     const dispatch = useDispatch()
+
+    const [search, setSearch] = useState(null)
+    const [sort, setSort] = useState(null)
+    const currentPage = useSelector((state) => state.posts.currentPage)
+
+    const onSearch = (e) => {
+        setSearch(e.target.value)
+        dispatch(setCurrentPagePosts({
+            searchQuery: search,
+            sorterName: sort,
+            listToModify: list,
+            pageNumber: currentPage
+        }))
+    }
+
+    const onSort = (e) => {
+        setSort(e.target.value)
+        dispatch(setCurrentPagePosts({
+            searchQuery: search,
+            sorterName: sort,
+            listToModify: list,
+            pageNumber: currentPage
+        }))
+    }
+
+    const onChangePage  = (newPage) => {
+        if (newPage === currentPage) {
+            return
+        }
+        dispatch(changePage(newPage))
+        dispatch(setCurrentPagePosts({
+            searchQuery: search,
+            sorterName: sort,
+            listToModify: list,
+            pageNumber: newPage
+        }))
+    }
 
     useEffect(() => {
         if (!list) {
             dispatch(getPosts())
         }
-
+        if (list) {
+            dispatch(setCurrentPagePosts(
+                {
+                    searchQuery: search,
+                    sorterName: sort,
+                    listToModify: list,
+                    pageNumber: currentPage
+                }))
+        }
     }, [list, dispatch])
 
     if (!list && loading) {
@@ -28,7 +78,12 @@ export const PostsPage = () => {
     return(
         <Container>
             <Typo>Публикации</Typo>
-            <Posts posts={list}/>
+            <SC.SearchSorterWrapper>
+                <Sorter onSort={onSort}/>
+                <Search onSearch={onSearch}/>
+            </SC.SearchSorterWrapper>
+            {currentPagePosts && <Posts posts={currentPagePosts}/>}
+            <Pagination onChangePage={onChangePage}/>
         </Container>
     )
 }

@@ -7,9 +7,7 @@ import {Button} from "../ui/Button";
 
 // TODO
 // custom hooks (for forms)
-// СДЕЛАТЬ ЛИМИТ ПОСТОВ НА 10 ВМЕСТО 3 И ПОСТРАНИЧНУЮ ПАГИНАЦИЮ ЕБАНУТЬ
-// ФИЛЬТРАЦИЯ ПО НАЗВАНИЮ ПОСТОВ
-// СОРТИРОВКА ПОСТОВ КАКАЯ-НИБУДЬ
+// ПОФИКСИТЬ ФИЛЬТРАЦИЮ И СОРТИРОВКУ
 
 export const Root = () => {
     const { user } = useSelector((state) => state.auth)
