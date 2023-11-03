@@ -4,7 +4,6 @@ import {Typo} from "../../components/ui/Typo";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getFreshPosts} from "../../redux/slices/postsSlice";
-import {RotatingLines} from "react-loader-spinner";
 import {Loader} from "../../components/ui/Loader";
 
 export const MainPage = () => {

@@ -19,24 +19,22 @@ export const PostsPage = () => {
     const [sort, setSort] = useState(null)
     const currentPage = useSelector((state) => state.posts.currentPage)
 
+    const action_payload = {
+        searchQuery: search,
+        sorterName: sort,
+        listToModify: list,
+        pageNumber: currentPage
+    }
     const onSearch = (e) => {
         setSearch(e.target.value)
-        dispatch(setCurrentPagePosts({
-            searchQuery: search,
-            sorterName: sort,
-            listToModify: list,
-            pageNumber: currentPage
-        }))
+        dispatch(setCurrentPagePosts(action_payload))
+        dispatch(changePage(1))
     }
 
     const onSort = (e) => {
         setSort(e.target.value)
-        dispatch(setCurrentPagePosts({
-            searchQuery: search,
-            sorterName: sort,
-            listToModify: list,
-            pageNumber: currentPage
-        }))
+        dispatch(setCurrentPagePosts(action_payload))
+        dispatch(changePage(1))
     }
 
     const onChangePage  = (newPage) => {
@@ -44,12 +42,7 @@ export const PostsPage = () => {
             return
         }
         dispatch(changePage(newPage))
-        dispatch(setCurrentPagePosts({
-            searchQuery: search,
-            sorterName: sort,
-            listToModify: list,
-            pageNumber: newPage
-        }))
+        dispatch(setCurrentPagePosts(action_payload))
     }
 
     useEffect(() => {
@@ -65,7 +58,7 @@ export const PostsPage = () => {
                     pageNumber: currentPage
                 }))
         }
-    }, [list, dispatch])
+    }, [list, dispatch, currentPage, search, sort])
 
     if (!list && loading) {
         return <Loader />

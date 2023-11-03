@@ -1,8 +1,7 @@
 import {useParams} from "react-router-dom";
 import {PostForm} from "../components/PostForm";
-import {editPost, getPostById} from "../../../redux/slices/postsSlice";
+import {editPost} from "../../../redux/slices/postsSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
 
 export const EditPostPage = () => {
     const { id } = useParams()

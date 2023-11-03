@@ -1,5 +1,5 @@
 const search = (searchQuery, listToSearch) => {
-    return listToSearch.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    return listToSearch.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 }
 const sorterComparison = (fieldName) => {
     return (a, b) => a[fieldName] <= b[fieldName] ? -1 : 1

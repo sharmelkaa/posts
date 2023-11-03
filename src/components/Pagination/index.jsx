@@ -25,13 +25,13 @@ export const Pagination = ({ onChangePage }) => {
     return(
         <SC.PaginationWrapper>
             {pagination.map((pageNumber, index) => (
-                    <SC.Page
-                        key={index}
-                         selected={currentPage === pageNumber}
-                         onClick={(e) => onChangePage(Number(e.target.innerHTML))}
-                    >
-                        {pageNumber}
-                    </SC.Page>
+                <SC.Page
+                    key={index}
+                    selected={currentPage === pageNumber}
+                    onClick={(e) => onChangePage(Number(e.target.innerHTML))}
+                >
+                    {pageNumber}
+                </SC.Page>
             ))}
         </SC.PaginationWrapper>
     )
