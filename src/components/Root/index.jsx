@@ -5,10 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../redux/slices/authSlice";
 import {Button} from "../ui/Button";
 
-// TODO
-// custom hooks (for forms)
-// ПОФИКСИТЬ ФИЛЬТРАЦИЮ И СОРТИРОВКУ
-
 export const Root = () => {
     const { user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()

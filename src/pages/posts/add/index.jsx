@@ -1,5 +1,4 @@
 import {PostForm} from "../components/PostForm";
-import * as SC from './styles'
 import {useDispatch} from "react-redux";
 import {addPost} from "../../../redux/slices/postsSlice";
 

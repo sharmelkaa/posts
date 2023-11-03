@@ -24,8 +24,6 @@ export const RegistrationPage = () => {
 
     const navigate = useNavigate()
 
-    const onClose = () => console.log('hello')
-
     const onSubmit = (e) => {
         e.preventDefault()
 
